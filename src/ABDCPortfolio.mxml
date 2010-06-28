@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This source code is provided as-is.  It is Copyright 2009-2010 Adam Bergman.
+You may use parts of this source code in your projects, however you MAY NOT
+repost this portfolio as your own with your own projects.  Images included
+are copyrights of their respective owners.
+
+You MAY NOT to repost or redistribute this source code with out expressed
+written permission from the author.
+
+If you find this code useful please comment at my blog: adambergman.com
+Permalink: http://adambergman.com/2010/05/14/portfolio-source-code-updated/
+-->
+<s:Application 
+	skinClass="com.adambergman.flex.portfolio.skins.ApplicationBackground"
+	creationComplete="creationCompleteHandler(event)"
+	 xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	 xmlns:s="library://ns.adobe.com/flex/spark" 
+	 xmlns:mx="library://ns.adobe.com/flex/mx" 
+	 minWidth="1024" minHeight="768" 
+	 xmlns:portfolio="com.adambergman.flex.portfolio.*" viewSourceURL="srcview/index.html" xmlns:components="com.adambergman.flex.portfolio.components.*" xmlns:thirdparty="com.adambergman.flex.portfolio.thirdparty.*">
+	 <fx:Style source="fonts.css">
+	 </fx:Style>
+	<fx:Script>
+		<![CDATA[
+			import caurina.transitions.Tweener;
+			
+			import com.adambergman.flex.portfolio.Model;
+			import com.adambergman.flex.portfolio.Project;
+			import com.adambergman.flex.portfolio.ProjectLoader;
+			import com.adambergman.flex.portfolio.Screenshot;
+			import com.adambergman.flex.portfolio.components.IconRenderer;
+			import com.adambergman.flex.portfolio.components.ProjectRenderer;
+			import com.adambergman.flex.portfolio.components.Viewport;
+			import com.adambergman.flex.portfolio.events.ProjectChangedEvent;
+			import com.adambergman.flex.portfolio.events.ProjectLoadEvent;
+			import com.adambergman.flex.portfolio.events.ScreenshotChangedEvent;
+			import com.adambergman.flex.portfolio.pv3d.CustomCube;
+			import com.adambergman.flex.portfolio.pv3d.CustomView;
+			import com.adambergman.flex.portfolio.skins.ApplicationBackground;
+			import com.adambergman.flex.portfolio.skins.BottomBarBackground;
+			
+			import mx.events.FlexEvent;
+			import mx.events.ResizeEvent;
+			
+			import org.papervision3d.events.InteractiveScene3DEvent;
+			import org.papervision3d.objects.primitives.Cube;
+			
+			private var model:Model = Model.instance;
+			
+			// bindable proxies for the variables inside of model
+			[Bindable] public var projectData:ProjectLoader = model.projectData;
+			[Bindable] public var currentProject:Project = model.currentProject;
+			[Bindable] public var screenshotTitleText:String = model.screenshotTitleText;
+
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				// intial positioning for user interface items
+				// this moves most items out of sight so they can 
+				// be tweened in either after the progress bar goes 
+				// away or when they are needed for navigation
+				title.bottom = -1 * title.height - 15;
+				project.left = -1 * project.width - 15;
+				projectHeader.left = -1 * projectHeader.width - 15;
+				logoHeader.left = -1 * logoHeader.width - 15;
+				previousHeader.left = -1 * previousHeader.width - 15;
+				nextHeader.right = nextHeader.width * -1 - 15;
+				backHeader.top = backHeader.height * -1 - 15;
+				
+				// Bind events to the project data in model
+				projectData.addEventListener(ProjectLoadEvent.XML_SUCCESS, loadedSuccess);
+				projectData.addEventListener(ProjectLoadEvent.XML_START, loadedProgress);
+				
+				// Bind the project changed event in model
+				model.addEventListener(ProjectChangedEvent.PROJECT_CHANGED, currentProjectChanged);
+
+				// Bind the screenshot changed event in model
+				model.addEventListener(ScreenshotChangedEvent.SCREENSHOT_CHANGED, screenshotChanged);
+				
+				// Bind the zoom changed event in the model so we can display
+				// controls when the camera zooms into a screenshot
+				model.addEventListener(Model.ZOOM_CHANGED_EVENT, zoomChanged);
+				
+				// tell the model to being loading the xml and images
+				model.loadProjects();
+				
+				// wait until things have settled down and then force the 
+				// viewport to become visible and resize itself to the browser window
+				// this is a bit of a hack, but it doesn't seem to work if you do this
+				// directly on creationComplete.
+				setTimeout(viewport.initializeViewport, 1000);					
+			}
+			
+			// handles progress events from the ProjectLoader
+			private function loadedProgress(event:ProjectLoadEvent):void
+			{
+				// manually set the bar to the progress of our preloading images
+				progBar.indeterminate = false;
+				progBar.setProgress(projectData.imagesLoaded, projectData.imagesTotal);
+				progBar.label = "Loading Images: " + projectData.imagesLoaded + " / " + projectData.imagesTotal;
+			}
+			
+			// handles the success event of the ProjectLoader
+			private function loadedSuccess(event:ProjectLoadEvent):void
+			{
+				// hide the progress bar and load the first project
+				Tweener.addTween(progBar, {alpha: 0, time: 1});
+				loadProject(0);
+			}		
+			
+			// handles the screenshot changed event from the model
+			private function screenshotChanged(event:ScreenshotChangedEvent):void
+			{
+				Tweener.addTween(title, {bottom: -1 * title.height - 15, time: 0.7, onComplete: setTitle});				
+				Tweener.addTween(title, {bottom: 0, time: 0.7, delay: 0.7});
+			}
+			
+			private function setTitle():void
+			{
+				screenshotTitleText = model.screenshotTitleText;
+			}
+			
+			// handles the zoom in/out change event from the model
+			private function zoomChanged(event:Event):void
+			{
+				if(!model.isZoomed)
+				{
+					Tweener.addTween(previousHeader, {left: previousHeader.width * -1 - 15, time: 0.5});
+					Tweener.addTween(nextHeader, {right: nextHeader.width * -1 - 15, time: 0.5});
+					Tweener.addTween(title, {bottom: -1 * title.height - 15, time: 0.7});
+					Tweener.addTween(project, {left: 0, time: 0.7, delay: 0.9});
+					Tweener.addTween(projectHeader, {left: 0, time: 0.7, delay: 0.8});
+					Tweener.addTween(logoHeader, {left: 0, time: 0.7, delay: 0.7});
+					Tweener.addTween(backHeader, {top: backHeader.height * -1 - 15, time: 0.5});
+				}else{
+					screenshotTitleText = model.screenshotTitleText;
+					Tweener.addTween(title, {bottom: 0, time: 0.5});
+					Tweener.addTween(project, {left: -1 * project.width - 15, time: 0.7, delay: 0});
+					Tweener.addTween(projectHeader, {left: -1 * projectHeader.width - 15, time: 0.7, delay: 0.1});
+					Tweener.addTween(logoHeader, {left: -1 * logoHeader.width - 15, time: 0.7, delay: 0.2});
+					Tweener.addTween(previousHeader, {left: 0, time: 0.5, delay: 1});
+					Tweener.addTween(nextHeader, {right: 0, time: 0.5, delay: 1});
+					Tweener.addTween(backHeader, {top: 0, time: 0.5, delay: 1});
+					refreshReflection();
+				}
+			}
+			
+			// handles the event that is dispatched when the currentProject in the model changes
+			private function currentProjectChanged(event:ProjectChangedEvent):void
+			{
+				loadProject(model.currentProjectIndex);
+			}
+			
+			private var first:Boolean = true;
+			// loads a project
+			protected function loadProject(index:Number):void
+			{
+				model.fadeScreenshotsOnMouseOver = false;
+				
+				if(!first)
+				{
+					Tweener.addTween(project, {left: -1 * project.width - 15, time: 0.7, onComplete: displayProject});
+				}else{
+					Tweener.addTween(projectHeader, {left: 0, time: 0.7});
+					Tweener.addTween(logoHeader, {left: 0, time: 0.7});	
+					model.currentProject = Project(model.projectData.projects.getItemAt(0));
+					displayProject();
+					first = false;
+				}
+				
+				// parse through the dots in the menu and set the selected dot to red
+				for(var e:Number = 0; e < navContainer.numElements; e++)
+				{
+					var p:ProjectRenderer = ProjectRenderer(navContainer.getElementAt(e));
+					
+					if(e == model.currentProjectIndex)
+					{
+						p.selectored = true;
+						p.normColor1 = 0x990000;
+						p.normColor2 = 0x330000;
+					}else{
+						p.normColor1 = 0xCCCCCC;
+						p.normColor2 = 0xDADADA;
+						p.selectored = false;
+					}
+				}
+			}
+			
+			private function displayProject():void
+			{
+				currentProject = model.currentProject;
+				// show the project window
+				Tweener.addTween(project, {left: 0, time: 0.7, onComplete: refreshReflection});
+				
+				refreshReflection();
+			}
+			
+			protected function refreshReflection():void
+			{
+				projectImageReflect.invalidateDisplayList();
+			}
+			
+			protected function itemRendererClicked(event:Event):void
+			{
+				if(event.target == null){ return; }
+				
+				if(event.target is ProjectRenderer)
+				{
+					model.currentProjectIndex = event.target.data.index;
+				}
+			}
+			
+			private function linkClicked(event:Event):void
+			{
+				if(currentProject.link != "")
+				{
+					var url:URLRequest = new URLRequest(currentProject.link);
+					navigateToURL(url, "_blank");					
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!-- The Papervision 3D View port -->
+	<s:HGroup left="0" right="0" top="0" bottom="0" id="hGroup" resize="viewport.checkForResize()">
+		<s:Group width="100%" height="100%" id="viewPortGroup">
+			<components:Viewport id="viewport" width="100%" height="100%" visible="false"/>
+		</s:Group>
+	</s:HGroup>	
+	
+	<!-- The Title Bar -->
+	<s:SkinnableContainer id="title" height="75" left="0" right="0" bottom="0" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<mx:Label y="14" text="{screenshotTitleText}" fontFamily="MyriadPro" fontSize="36" textAlign="center" id="titleLabel" color="#FFFFFF" horizontalCenter="0"/>
+	</s:SkinnableContainer>
+	
+	<s:SkinnableContainer id="project" height="521" left="0" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground" verticalCenter="30" width="377">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<mx:Label text="{currentProject.name}" fontFamily="MyriadPro" fontSize="24" textAlign="center" id="projectLabel" color="#FFFFFF" left="7" top="127"/>
+		<s:Label  fontFamily="MyriadPro" text="{currentProject.description}" left="20" width="332" color="#FFFFFF" height="300" y="165" id="projectDescription" verticalAlign="top"/>
+		<mx:LinkButton visible="{currentProject.link == '' ? false : true}" x="250" y="2" label="View this Project Live" color="#FFFFFF" fontFamily="MyriadPro" id="projectLink" click="linkClicked(event)"/>
+		<mx:Image source="{currentProject.image}" height="78" id="projectImage" width="377" x="0" y="20" complete="refreshReflection()"/>
+		<thirdparty:Reflector id="projectImageReflect" target="{projectImage}" alpha="0.5" falloff="0.3" />
+		<s:DataGroup x="19" y="475" width="335" height="40" id="techContainer" dataProvider="{currentProject.technologies}" itemRenderer="com.adambergman.flex.portfolio.components.IconRenderer">
+			<s:layout>
+				<s:HorizontalLayout gap="3"/>
+			</s:layout>
+		</s:DataGroup>
+	</s:SkinnableContainer>
+	
+	<s:SkinnableContainer id="projectHeader" height="46" left="0" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground" verticalCenter="-258" width="377">
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<s:Button skinClass="com.adambergman.flex.portfolio.skins.buttons.buttonLeft" width="25" height="25" click="model.previousProject()" y="11" x="6" buttonMode="true"/>
+		<s:Button skinClass="com.adambergman.flex.portfolio.skins.buttons.buttonRight" width="25" height="25" click="model.nextProject()" y="11" x="346" buttonMode="true"/>
+		<s:DataGroup click="itemRendererClicked(event)" id="navContainer" x="36" y="8" width="302" height="31" dataProvider="{projectData.projects}" itemRenderer="com.adambergman.flex.portfolio.components.ProjectRenderer">
+			<s:layout>
+				<s:HorizontalLayout gap="3"/>
+			</s:layout>
+		</s:DataGroup>
+		
+	</s:SkinnableContainer>
+	
+	<s:SkinnableContainer id="logoHeader" height="78" left="-1" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground" verticalCenter="-325" width="377">
+		<mx:Label text="BERGMAN" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel0" color="#FFFFFF" left="108" top="24" height="36"/>
+		<mx:Label text="portfolio" fontFamily="MyriadPro" fontSize="25" textAlign="center" id="projectLabel1" color="#E8E8E8" left="262" top="26" height="36"/>
+		<mx:Label text="|" fontFamily="MyriadPro" fontSize="31" textAlign="center" id="projectLabel9" color="#E8E8E8" left="237" top="23" height="36"/>
+		<mx:Label text="ADAM" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel8" color="#FF0000" left="19" top="24" height="36"/>
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+		</s:SkinnableContainer>
+	<s:SkinnableContainer mouseOut="model.stopScreenshotRotation = false" mouseOver="model.stopScreenshotRotation = true" id="previousHeader" click="model.previousScreenshot()" height="78" left="0" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground" verticalCenter="-25" width="186">
+		<mx:Label text="previous" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel2" color="#FFFFFF" left="47" top="18" height="36"/>
+		<mx:Label text="&lt;" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel3" color="#FF0000" left="7" top="19" height="36"/>
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+		</s:SkinnableContainer>
+	<s:SkinnableContainer mouseOut="model.stopScreenshotRotation = false" mouseOver="model.stopScreenshotRotation = true" id="nextHeader" click="model.nextScreenshot()" height="78" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground" right="0" verticalCenter="-25" width="186">
+		<mx:Label text="next" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel4" color="#FFFFFF" left="67" top="15" height="36"/>
+		<mx:Label text="&gt;" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel5" color="#FF0000" left="137" top="15" height="36"/>
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+		</s:SkinnableContainer>
+	<mx:ProgressBar id="progBar" maximum="{projectData.imagesTotal}" minimum="0" fontFamily="MyriadPro" mode="manual" indeterminate="true" label="Loading" horizontalCenter="0" verticalCenter="0"/>
+	<s:SkinnableContainer mouseOut="model.stopScreenshotRotation = false" mouseOver="model.stopScreenshotRotation = true" id="backHeader" click="model.isZoomed = false" height="78" skinClass="com.adambergman.flex.portfolio.skins.BottomBarBackground" width="186" horizontalCenter="0" top="0">
+		<mx:Label text="project" fontFamily="MyriadPro" fontSize="32" textAlign="center" id="projectLabel6" color="#FFFFFF" left="57" top="15" height="36"/>
+		<mx:Label text="^" fontFamily="MyriadPro" fontSize="34" textAlign="center" id="projectLabel7" color="#FF0000" left="20" top="20" height="36"/>
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+		</s:SkinnableContainer>
+	
+</s:Application>

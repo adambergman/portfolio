@@ -1,0 +1,14 @@
+@font-face {
+	src: url("/assets/MyriadPro-Regular.otf");
+	fontFamily: MyriadPro;
+	advancedAntiAliasing: true;
+	embedAsCFF: false;
+}
+
+@font-face {
+	src: url("/assets/MyriadPro-Bold.otf");
+	fontFamily: MyriadPro;
+	font-weight: bold;
+	advancedAntiAliasing: true;
+	embedAsCFF: false;
+}

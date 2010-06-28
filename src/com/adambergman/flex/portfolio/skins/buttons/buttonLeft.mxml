@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This source code is provided as-is.  It is Copyright 2009-2010 Adam Bergman.
+You may use parts of this source code in your projects, however you MAY NOT
+repost this portfolio as your own with your own projects.  Images included
+are copyrights of their respective owners.
+
+You MAY NOT to repost or redistribute this source code with out expressed
+written permission from the author.
+
+If you find this code useful please comment at my blog: adambergman.com
+Permalink: http://adambergman.com/2010/05/14/portfolio-source-code-updated/
+
+-->
+<Skin 
+	xmlns:ai="http://ns.adobe.com/ai/2008" 
+	xmlns:d="http://ns.adobe.com/fxg/2008/dt" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" 
+	xmlns="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" 
+	width="25" height="25">
+	
+	<fx:Metadata>
+		[HostComponent("spark.components.Button")] 
+	</fx:Metadata>
+
+	<states>
+		<mx:State name="up"/>
+		<mx:State name="down"/>
+		<mx:State name="over"/>
+		<mx:State name="disabled"/>
+	</states>
+	
+	<Group x="0" y="0" d:id="2" d:type="layer" d:userLabel="Layer 1">
+    <Group>
+      <Group ai:knockout="0">
+        <Ellipse x="1.5" y="1.5" width="22" height="22" ai:knockout="0">
+          <fill>
+            <LinearGradient x="11" scaleX="22" rotation="90">
+              <GradientEntry color="#666666" color.over="#333333" ratio="0"/>
+              <GradientEntry color="#999999" color.over="#666666" ratio="1"/>
+            </LinearGradient>
+          </fill>
+        </Ellipse>
+        <Ellipse x="1.5" y="1.5" width="22" height="22" ai:knockout="0">
+          <stroke>
+           <LinearGradientStroke  scaleX="22" rotation="90" weight="1" joints="miter" miterLimit="4">
+	        	<GradientEntry color="#000000" color.over="#000000" ratio="0"/>
+	            <GradientEntry color="#444444" color.over="#333333" ratio="1"/>
+	        </LinearGradientStroke>
+          </stroke>
+        </Ellipse>
+        <Ellipse x="1.5" y="1.5" width="22" height="22" ai:knockout="0">
+          <stroke>
+            <LinearGradientStroke  scaleX="22" rotation="90" weight="1" joints="miter" miterLimit="4">
+	        	<GradientEntry color="#000000" color.over="#000000" ratio="0"/>
+	            <GradientEntry color="#444444" color.over="#333333" ratio="1"/>
+	        </LinearGradientStroke>
+          </stroke>
+        </Ellipse>
+      </Group>
+    </Group>
+    <Path winding="nonZero" ai:knockout="0" data="M13.9414 17.4053L8.79492 12.2593 13.9414 7.11279" >
+      <stroke>
+        <SolidColorStroke color="#ffffff" caps="none" weight="2.5" joints="miter" miterLimit="4"/>
+      </stroke>
+    </Path>
+  </Group>
+	
+	<layout>
+		<BasicLayout/>
+	</layout>
+</Skin>

@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This source code is provided as-is.  It is Copyright 2009-2010 Adam Bergman.
+You may use parts of this source code in your projects, however you MAY NOT
+repost this portfolio as your own with your own projects.  Images included
+are copyrights of their respective owners.
+
+You MAY NOT to repost or redistribute this source code with out expressed
+written permission from the author.
+
+If you find this code useful please comment at my blog: adambergman.com
+Permalink: http://adambergman.com/2010/05/14/portfolio-source-code-updated/
+
+-->
+<mx:UIComponent resize="checkForResize()" creationComplete="onCreationComplete(event)" xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx">
+	<fx:Script>
+		<![CDATA[
+			import caurina.transitions.Tweener;
+			
+			import com.adambergman.flex.portfolio.Model;
+			import com.adambergman.flex.portfolio.Screenshot;
+			import com.adambergman.flex.portfolio.events.ProjectChangedEvent;
+			import com.adambergman.flex.portfolio.events.ScreenshotChangedEvent;
+			import com.adambergman.flex.portfolio.pv3d.CustomCube;
+			import com.adambergman.flex.portfolio.pv3d.CustomView;
+			
+			import mx.events.FlexEvent;
+			
+			import org.papervision3d.core.proto.CameraObject3D;
+			import org.papervision3d.events.InteractiveScene3DEvent;
+			import org.papervision3d.scenes.Scene3D;
+			import org.papervision3d.view.BasicView;
+			import org.papervision3d.view.Viewport3D;
+			
+			import spark.components.Group;
+			import spark.components.supportClasses.GroupBase;
+			
+			public var view3D:CustomView;
+			
+			public var camera:CameraObject3D;
+            public var scene:Scene3D;
+            public var viewport:Viewport3D;
+         
+            private var oldWidth:Number = 0;
+            private var oldHeight:Number = 0;
+
+			private var model:Model = Model.instance;	
+			
+			private var first:Boolean = false;
+			private var currentPlane:CustomCube;
+			
+			public var reacting:Boolean = false;
+			
+			// fires when the component has been created
+			protected function onCreationComplete(event:FlexEvent):void
+			{
+				// initalize our 3D Container, scene, camera and viewport
+				view3D = new CustomView();
+				scene  = view3D.scene
+                camera = view3D.camera;
+				viewport = view3D.viewport;
+				
+				addChild(view3D);
+
+				model.addEventListener(Model.ZOOM_CHANGED_EVENT, zoomChanged);
+				model.addEventListener(ScreenshotChangedEvent.SCREENSHOT_CHANGED, screenshotChanged);
+				model.addEventListener(ProjectChangedEvent.PROJECT_CHANGED, projectChanged);
+				
+                //addEventListener(Event.ENTER_FRAME, render);
+			}
+			
+			// resets the viewports size to the entire stage,
+			// sets it to visible and moves the camera to the default position
+			public function initializeViewport():void
+			{
+				this.checkForResize();
+				this.visible = true;
+				this.view3D.cameraTween(0, 0, -3000, 4);
+			}
+            
+			//TODO: Consildate this to initilizeViewport() function
+            public function checkForResize():void
+            {
+            	if(this == null){ return; }
+            	var group:GroupBase = GroupBase(this.parent);       
+				this.width = group.width;
+				this.height = group.height;                
+            }
+			
+			// handles a project change
+			private function projectChanged(event:ProjectChangedEvent):void
+			{
+				if(first)
+				{
+					first = false;
+					loadScene(model.currentProjectIndex);
+				}else{
+					removeFromScene(model.currentProjectIndex);
+				}
+			}
+			
+			// handles a screenshot changed event from the model
+			private function screenshotChanged(event:ScreenshotChangedEvent):void
+			{
+				gotoPlaneIndex(event.currentScreenshotIndex, event.previousScreenshotIndex);
+			}
+			
+			private function zoomChanged(evt:Event):void
+			{
+				if(model.isZoomed)
+				{	
+					currentPlane.clearFilters();
+					this.view3D.cameraTween(currentPlane.x, currentPlane.y, -1000, 2);
+					interval = setInterval(rotateTestCube, 100, currentPlane);					
+					model.currentScreenshotIndex = currentPlane.index;
+					fadeInAllScreenshots();
+					currentPlane.zoomed = model.isZoomed;
+					setTimeout(clearReacting, 1000);
+				}else{
+					currentPlane.rotationX = currentPlane.rotationY = 0;
+					currentPlane.clearFilters();
+					clearInterval(interval);
+					for(var i:Number = 0; i < this.scene.numChildren; i++)
+					{
+						if(i == model.currentScreenshotIndex)
+						{
+							var screenshot:CustomCube = CustomCube(this.scene.getChildByName("plane" + i));
+							if(screenshot == null){ return; }
+							screenshot.zoomed = false;
+						}	
+					}
+					setTimeout(clearReacting, 1000);
+					this.view3D.cameraTween(0, 0, -3000, 2);
+				}
+			}
+			
+			
+			protected function removeFromScene(index:Number):void
+			{
+				for(var i:Number = 0; i < this.scene.numChildren; i++)
+				{
+					var plane:CustomCube = CustomCube(this.scene.getChildByName("plane" + i));
+					if(plane == null){ continue; }
+					var num:Number = 1;
+					if(i % 2 > 0)
+					{
+						num = -1;
+					}
+					var num2:Number = 1;
+					if(i % 4 > 0)
+					{
+						num2 = -1;
+					}
+					if(i % 6 == 0)
+					{
+						num2 = -1;
+						num = -1;
+					}
+					Tweener.addTween(plane, {x: plane.x + num * 2500, y: plane.y + num2 * 2900, time: 2});
+				}
+				setTimeout(loadScene, 800, index);
+			}
+			
+			public function loadScene(index:Number):void
+			{
+				
+				for(var r:Number = 0; r < this.scene.numChildren; r++)
+				{
+					this.scene.removeChildByName("plane" + r);
+				}
+				this.camera.z = 100;
+				model.totalScreenshots = 0;
+				for(var i:Number = 0; i < model.currentProject.screenshots.length; i++)
+				{
+					var ss:Screenshot = Screenshot(model.currentProject.screenshots.getItemAt(i));
+					var plane:CustomCube = new CustomCube(ss.imageData.width, ss.imageData.height, ss.imageData);
+					
+					switch(model.currentProject.screenshots.length)
+					{
+						case 1:
+							plane.y = 0;
+							plane.x += 650;
+							break;
+						case 2:
+							if(i == 0)
+							{
+								plane.x = 100;
+								plane.y = 0;
+							}
+							if(i == 1)
+							{
+								plane.x = 1250;
+								plane.y = 0
+							}
+							break;
+						case 4:
+							plane.y += 1000 * i - 400;
+							plane.x += 0;
+							if(i >= 2)
+							{
+								plane.y -= (1000 * 2);
+								plane.x += 1300;	
+							}
+							break;
+						
+						case 5:
+							plane.y += 800 * i - 800;
+							plane.x += 0;
+							if(i >= 3)
+							{
+								plane.y -= (800 * 3);
+								plane.x += 1300;	
+							}
+							if(i == 2)
+							{
+								plane.x += 1300/2;
+							}
+							break;
+						
+						default:
+							plane.y += 800 * i - 800;
+							plane.x += 0;
+							if(i >= 3)
+							{
+								plane.y -= (800 * 3);
+								plane.x += 1300;	
+							}	
+							break;
+					}
+					plane.title = ss.title;
+					plane.index = i;
+					model.totalScreenshots++;
+					plane.addEventListener(InteractiveScene3DEvent.OBJECT_OVER, materialOver);
+					plane.addEventListener(InteractiveScene3DEvent.OBJECT_OUT, materialOut);
+					plane.addEventListener(InteractiveScene3DEvent.OBJECT_CLICK, materialClick);
+					plane.addEventListener(InteractiveScene3DEvent.OBJECT_PRESS, materialClick);
+					this.scene.addChild(plane, "plane" + i);
+				}
+				
+				this.view3D.cameraTween(0, 0, -3000, 2);
+				
+				setTimeout(setOkayToFade, 2000);
+			}
+			
+			private function materialClick(evt:InteractiveScene3DEvent):void
+			{
+				model.screenshotTitleText = CustomCube(evt.target).title;
+				if(reacting){ return; }
+				setReacting();
+				currentPlane = CustomCube(evt.target);
+				model.isZoomed = !model.isZoomed;
+			}
+			
+			private function materialOver(evt:InteractiveScene3DEvent):void
+			{
+				if(!model.fadeScreenshotsOnMouseOver){ return; }
+				for each(var cube:CustomCube in this.scene.children)
+				{
+					if(cube != evt.target)
+					{
+						cube.fadeOut();
+					}
+				} 
+			}
+			
+			private function materialOut(evt:InteractiveScene3DEvent):void
+			{
+				fadeInAllScreenshots();
+			}		
+			
+			private var interval:uint;
+			
+			private function gotoPlaneIndex(index:Number, prevIndex:Number=-1):void
+			{
+				clearInterval(interval);				
+				
+				for(var x:Number = 0; x < this.scene.numChildren; x++)
+				{
+					if(x == prevIndex)
+					{
+						var prevPlane:CustomCube = CustomCube(this.scene.getChildByName("plane" + x));
+						if(prevPlane == null){ return; }
+						prevPlane.rotationX = prevPlane.rotationY = 0;
+					}	
+				}
+				
+				for(var i:Number = 0; i < this.scene.numChildren; i++)
+				{
+					if(i == index)
+					{
+						var plane:CustomCube = CustomCube(this.scene.getChildByName("plane" + i));
+						if(plane == null){ return; }
+						this.view3D.cameraTween(plane.x, plane.y, -1000, 2);
+						interval = setInterval(rotateTestCube, 100, plane);
+						model.currentScreenshotIndex = index;
+						model.screenshotTitleText = plane.title;
+					}	
+				}				
+			}
+			
+			
+			private function rotateTestCube(plane:CustomCube):void
+			{
+				if(!model.stopScreenshotRotation)
+				{
+					plane.setRotation(mouseX, mouseY, this.width, this.height);
+				}else{
+					plane.rotationY = plane.rotationX = 0;
+				}
+			}
+			
+			// helper function to fade in all screenshots
+			private function fadeInAllScreenshots():void
+			{
+				for each(var screenshot:CustomCube in this.scene.children)
+				{
+					screenshot.fadeIn();
+					screenshot.clearFilters();
+				} 
+			}
+			
+			// helper functions (so that they can be called from Tweener and Timeouts)
+			public function setOkayToFade():void
+			{
+				model.fadeScreenshotsOnMouseOver = true;
+			}
+			
+			public function unsetOkayToFade():void
+			{
+				model.fadeScreenshotsOnMouseOver = false;
+			}
+			
+			private function setReacting():void
+			{
+				reacting = true;
+			}
+			
+			private function clearReacting():void
+			{
+				reacting = false;
+			}
+
+
+		]]>
+	</fx:Script>
+</mx:UIComponent>

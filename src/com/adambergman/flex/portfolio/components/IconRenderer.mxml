@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This source code is provided as-is.  It is Copyright 2009-2010 Adam Bergman.
+You may use parts of this source code in your projects, however you MAY NOT
+repost this portfolio as your own with your own projects.  Images included
+are copyrights of their respective owners.
+
+You MAY NOT to repost or redistribute this source code with out expressed
+written permission from the author.
+
+If you find this code useful please comment at my blog: adambergman.com
+Permalink: http://adambergman.com/2010/05/14/portfolio-source-code-updated/
+
+-->
+<s:ItemRenderer
+		xmlns:portfolio="com.adambergman.flex.portfolio.*"  
+		autoDrawBackground="false"
+		xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx" 
+		width="40" height="40"
+>
+	<s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+		<s:State name="hovered" />
+	</s:states>
+	<mx:Image id="techImage" source="{data.source}" x="4" y="0" width="32" height="32" toolTip="{data.tooltip}"/>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+</s:ItemRenderer>

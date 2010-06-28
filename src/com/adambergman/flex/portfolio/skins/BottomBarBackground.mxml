@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+	Note: 
+			This code was originally written by Peter deHaan at flexexamples.com
+			It was modified by Adam Bergman to include the changes in the latest
+			version of the Flex 4 SDK.  http://adambergman.com/
+			
+			The original source code and blog can be found at:
+			http://blog.flexexamples.com/2009/03/13/setting-a-linear-gradient-background-on-an-fxapplication-container-in-flex-gumbo/
+
+-->
+<s:Skin name="CustomFxApplicationSkin" 
+	xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+	xmlns:mx="library://ns.adobe.com/flex/mx" >
+	
+    <s:states>
+        <s:State name="normal" />
+        <s:State name="disabled" />
+    </s:states>
+
+    <fx:Metadata>
+        [HostComponent("spark.components.SkinnableContainer")]
+    </fx:Metadata> 
+
+    <!-- fill -->
+    <s:Rect id="backgroundRect" left="0" right="0" top="0" bottom="0">
+        <s:fill>
+            <s:LinearGradient rotation="-90">
+                <s:GradientEntry color="#000000" />
+                <s:GradientEntry color="#444444" />
+            </s:LinearGradient>
+        </s:fill>
+    </s:Rect>
+
+    <s:Group id="contentGroup"
+            left="0"
+            right="0"
+            top="0"
+            bottom="0" />
+
+</s:Skin>

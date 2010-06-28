@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+This source code is provided as-is.  It is Copyright 2009-2010 Adam Bergman.
+You may use parts of this source code in your projects, however you MAY NOT
+repost this portfolio as your own with your own projects.  Images included
+are copyrights of their respective owners.
+
+You MAY NOT to repost or redistribute this source code with out expressed
+written permission from the author.
+
+If you find this code useful please comment at my blog: adambergman.com
+Permalink: http://adambergman.com/2010/05/14/portfolio-source-code-updated/
+
+-->
+<s:ItemRenderer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="19" height="30" autoDrawBackground="false">
+
+	<fx:Script>
+		<![CDATA[
+			public var selectored:Boolean = false;
+			[Bindable] public var normColor1:uint = 0xCCCCCC;
+			[Bindable] public var normColor2:uint = 0xDADADA;
+		]]>
+	</fx:Script>
+	 <s:states>
+		<s:State name="normal" />
+		<s:State name="disabled" />
+		<s:State name="hovered" />
+	</s:states>
+	 <s:Ellipse width="10" height="10" x="4.5" y="10.5">
+          <s:fill>
+            <s:LinearGradient x="11" scaleX="22" rotation="90">
+              <s:GradientEntry id="gradi1" color="{normColor1}" color.hovered="0x990000" ratio="0"/>
+              <s:GradientEntry id="gradi2" color="{normColor2}" color.hovered="0x330000" ratio="1"/>
+            </s:LinearGradient>
+          </s:fill>
+        </s:Ellipse>
+	<s:layout>
+		<s:BasicLayout/>
+	</s:layout>
+</s:ItemRenderer>

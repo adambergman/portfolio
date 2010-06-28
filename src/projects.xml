@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<projects>
+	
+	<project>
+		<name><![CDATA[ adambergman.com/portfolio ]]></name>
+		<image>assets/logos/ablogo.png</image>
+		<link></link>
+		<description><![CDATA[Welcome to my online portfolio.  It was built on the Flex 4 framework, so be sure that you have the latest Flash Player installed.
+		
+			Use the Project Bar above to navigate through my various projects.  Screenshots and demos will load in 3D space to the right.  Click on a screenshot to zoom in.  Click again to zoom out.
+			
+			For comments, questions, or other information, please e-mail me at adam@adambergman.com.
+			
+			Thanks for visiting!   
+			 ]]></description>
+		<technologies>ps,ai,flex,flash</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Welcome!</title>
+				<image>assets/screenshots/home/ab.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	
+	<project>
+		<name><![CDATA[ Example Web Project ]]></name>
+		<image>assets/logos/browser.png</image>
+		<link>http://www.adambergman.com/</link>
+		<description><![CDATA[This is an example web project.  There are some browser screenshots on the right. 
+		
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a ligula in ipsum auctor posuere. Donec in diam ante. Sed sodales dolor non ante consequat sagittis. Quisque aliquet, velit id porttitor gravida, ante velit tincidunt eros, vitae volutpat urna tortor id dui. Curabitur at lectus in quam condimentum iaculis. Nam elit mauris, pulvinar non gravida quis, imperdiet ut arcu.
+			 ]]></description>
+		<technologies>flex,ps,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Mobile Phone Project ]]></name>
+		<image>assets/logos/mobile.png</image>
+		<link></link>
+		<description><![CDATA[An example mobile phone project.  You can talk about your project in the project description.
+			
+		]]></description>
+		<technologies>xcode,ai,ps,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Awesome IDE ]]></name>
+		<image>assets/logos/code.png</image>
+		<description><![CDATA[These are just some screenshots of the Flex IDE.
+			 ]]></description>
+		<technologies>flex,ps,ai,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Code View</title>
+				<image>assets/screenshots/flexdev1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Design View</title>
+				<image>assets/screenshots/flexdev2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Web Project ]]></name>
+		<image>assets/logos/browser.png</image>
+		<link>http://www.adambergman.com/</link>
+		<description><![CDATA[This is an example web project.  There are some browser screenshots on the right. 
+		
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a ligula in ipsum auctor posuere. Donec in diam ante. Sed sodales dolor non ante consequat sagittis. Quisque aliquet, velit id porttitor gravida, ante velit tincidunt eros, vitae volutpat urna tortor id dui. Curabitur at lectus in quam condimentum iaculis. Nam elit mauris, pulvinar non gravida quis, imperdiet ut arcu.
+			 ]]></description>
+		<technologies>flex,ps,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Mobile Phone Project ]]></name>
+		<image>assets/logos/mobile.png</image>
+		<link></link>
+		<description><![CDATA[An example mobile phone project.  You can talk about your project in the project description.
+			
+		]]></description>
+		<technologies>xcode,ai,ps,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Awesome IDE ]]></name>
+		<image>assets/logos/code.png</image>
+		<description><![CDATA[These are just some screenshots of the Flex IDE.
+			 ]]></description>
+		<technologies>flex,ps,ai,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Code View</title>
+				<image>assets/screenshots/flexdev1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Design View</title>
+				<image>assets/screenshots/flexdev2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Web Project ]]></name>
+		<image>assets/logos/browser.png</image>
+		<link>http://www.adambergman.com/</link>
+		<description><![CDATA[This is an example web project.  There are some browser screenshots on the right. 
+		
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a ligula in ipsum auctor posuere. Donec in diam ante. Sed sodales dolor non ante consequat sagittis. Quisque aliquet, velit id porttitor gravida, ante velit tincidunt eros, vitae volutpat urna tortor id dui. Curabitur at lectus in quam condimentum iaculis. Nam elit mauris, pulvinar non gravida quis, imperdiet ut arcu.
+			 ]]></description>
+		<technologies>flex,ps,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Mobile Phone Project ]]></name>
+		<image>assets/logos/mobile.png</image>
+		<link></link>
+		<description><![CDATA[An example mobile phone project.  You can talk about your project in the project description.
+			
+		]]></description>
+		<technologies>xcode,ai,ps,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Awesome IDE ]]></name>
+		<image>assets/logos/code.png</image>
+		<description><![CDATA[These are just some screenshots of the Flex IDE.
+			 ]]></description>
+		<technologies>flex,ps,ai,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Code View</title>
+				<image>assets/screenshots/flexdev1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Design View</title>
+				<image>assets/screenshots/flexdev2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Web Project ]]></name>
+		<image>assets/logos/browser.png</image>
+		<link>http://www.adambergman.com/</link>
+		<description><![CDATA[This is an example web project.  There are some browser screenshots on the right. 
+		
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a ligula in ipsum auctor posuere. Donec in diam ante. Sed sodales dolor non ante consequat sagittis. Quisque aliquet, velit id porttitor gravida, ante velit tincidunt eros, vitae volutpat urna tortor id dui. Curabitur at lectus in quam condimentum iaculis. Nam elit mauris, pulvinar non gravida quis, imperdiet ut arcu.
+			 ]]></description>
+		<technologies>flex,ps,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	
+	<project>
+		<name><![CDATA[ Example Web Project ]]></name>
+		<image>assets/logos/browser.png</image>
+		<link>http://www.adambergman.com/</link>
+		<description><![CDATA[This is an example web project.  There are some browser screenshots on the right. 
+		
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam a ligula in ipsum auctor posuere. Donec in diam ante. Sed sodales dolor non ante consequat sagittis. Quisque aliquet, velit id porttitor gravida, ante velit tincidunt eros, vitae volutpat urna tortor id dui. Curabitur at lectus in quam condimentum iaculis. Nam elit mauris, pulvinar non gravida quis, imperdiet ut arcu.
+			 ]]></description>
+		<technologies>flex,ps,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>AdamBergman.com Screenshot</title>
+				<image>assets/screenshots/browser1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Google.com Screenshot</title>
+				<image>assets/screenshots/browser2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Example Mobile Phone Project ]]></name>
+		<image>assets/logos/mobile.png</image>
+		<link></link>
+		<description><![CDATA[An example mobile phone project.  You can talk about your project in the project description.
+			
+		]]></description>
+		<technologies>xcode,ai,ps,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Home Screen</title>
+				<image>assets/screenshots/iphone2.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Bricked iPhone</title>
+				<image>assets/screenshots/iphone1.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+	<project>
+		<name><![CDATA[ Awesome IDE ]]></name>
+		<image>assets/logos/code.png</image>
+		<description><![CDATA[These are just some screenshots of the Flex IDE.
+			 ]]></description>
+		<technologies>flex,ps,ai,flash,java</technologies>
+		<screenshots>
+			<screenshot>
+				<title>Code View</title>
+				<image>assets/screenshots/flexdev1.png</image>
+			</screenshot>
+			<screenshot>
+				<title>Design View</title>
+				<image>assets/screenshots/flexdev2.png</image>
+			</screenshot>
+		</screenshots>
+	</project>
+	
+</projects>
